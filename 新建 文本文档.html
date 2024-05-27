@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心形图案动画</title>
+<style>
+@keyframes myanimation {
+0%, 100% {
+transform: scale(1) rotate(225deg);
+}
+50% {
+transform: scale(1.2) rotate(225deg);
+}
+}
+@keyframes myanimation2 {
+0%, 100% {
+transform: scale(1);
+}
+50% {
+transform: scale(1.2);
+}
+}
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: scale(0.5);
+}
+to {
+opacity: 0.9;
+transform: scale(1);
+}
+}
+@keyframes reveal {
+from {
+opacity: 0;
+}
+to {
+opacity: 1;
+}
+}
+.all {
+    width: 400px;
+    height: 300px;
+    top: 30%;
+    left: 37%;
+    position: absolute;
+    transform: translate(-30%, -30%);
+    opacity: 0;
+    z-index: 1;
+}
+.left {
+    left: 30px;
+    width: 200px;
+    height: 200px;
+    border-radius: 65%;
+    position: absolute;
+}
+.right {
+    right: 30px;
+    width: 200px;
+    height: 200px;
+    border-radius: 65%;
+    position: absolute;
+}
+.bottom {
+    bottom: 30px;
+    left: 100px;
+    width: 200px;
+    height: 200px;
+    transform: rotate(45deg);
+    border-radius: 2%;
+    position: absolute;
+}
+.left, .right, .bottom {
+    box-shadow: 0px 0px 40px #FFC0CB;
+    animation: myanimation 1.5s ease infinite normal;
+    background: linear-gradient(#FFC0CB, #FFC0CB);
+}
+.button {
+    position: absolute;
+    top: 80%;
+    left: 47.5%;
+    transform: translate(-50%, -50%);
+    background-color: #FFC0CB;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 20px;
+    transition-duration: 0.4s;
+    z-index: 1;
+    opacity: 0.8;
+    
+}
+.button:hover {
+    background-color: #FF8C8C;
+}
+.font {
+    top: 35%;
+    left: 41%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    font-size: 40px;
+    font-family: "字魂73号-江南手书";
+    color: #FFC0CB;
+    white-space: nowrap;
+    animation: myanimation2 1.5s ease infinite normal;
+    z-index: 1;
+}
+.font p span {
+    display: inline-block;
+    opacity: 0;
+}
+.photo-frame {
+    width: 300px;
+    border: 10px solid #fff; /* 相框的边框 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 相框的阴影 */
+    padding: 5px; /* 相框内的边距 */
+    background-color: #f7f7f7; /* 相框的背景色 */
+    margin: 20px; /* 相框外的边距 */
+    float: left; /* 让相框并排显示 */
+    position: relative; /* 为旋转做准备 */
+    overflow: hidden; /* 确保图片在旋转时不会超出相框 */
+}
+/* 图片样式 */
+.photo {
+    width: 100%; /* 图片宽度设为100%，填满相框 */
+    height: auto; /* 高度自适应 */
+    display: block; /* 去除图片底部的空隙 */
+    transition: transform 0.5s; /* 添加旋转动画 */
+}
+    
+    
+.container {
+  width: 360px; /* 设置容器宽度 */
+  height: 300px; /* 设置容器高度 */
+  overflow: visible; /* 隐藏溢出容器的部分 */
+  display: flex;
+    float: left;
+  align-items: center; /* 垂直居中 */
+  justify-content: center; /* 水平居中 */
+}
+    .main{
+        height: 100%;
+    }
+.container img {
+  max-width: 100%; /* 图片宽度不超过容器宽度 */
+  max-height: 100%; /* 图片高度不超过容器高度 */
+  transform-origin: center center; /* 设置旋转中心点 */
+  transition: transform 0.5s ease-in-out; /* 平滑过渡效果 */
+}
+</style>
+</head>
+<body>
+<button id="myButton" class="button">点击我</button>
+<div class="all">
+  <div class="left"></div>
+  <div class="right"></div>
+  <div class="bottom"></div>
+</div>
+<div class="font">
+  <p><span>林</span><span>姜</span><span>，</span><span>我</span><span>爱</span><span>你</span><span>！</span></p>
+</div>
+    <div class="main">
+    
+    </div>
+<script>
+    
+    var possibleNumbers = Array.from({length: 15}, (_, i) => i + 1);
+
+    // 存储已经生成的随机数
+    var generatedNumbers = [];
+
+    var i = 1;
+    var framesArray = []; // 存储相框的数组
+    document.getElementById('myButton').addEventListener('click', function() {
+      var allDiv = document.querySelector('.all');
+      var fontDiv = document.querySelector('.font');
+      var photoDiv = document.querySelector('.photo-frame');
+      var spans = fontDiv.querySelectorAll('span');
+
+        
+        
+        if (possibleNumbers.length > 0) {
+        // 随机选择一个索引
+        var index = Math.floor(Math.random() * possibleNumbers.length);
+        // 从可能的随机数中取出一个数
+        var randomNumber = possibleNumbers.splice(index, 1)[0];
+            console.log(randomNumber);
+        // 将这个数添加到已生成的随机数数组中
+        generatedNumbers.push(randomNumber);
+        
+        // 这里可以添加代码来使用这个随机数，例如显示它或者做其他处理
+            var mainDiv = document.querySelector('.main');
+            var newFrame = document.createElement('div');
+            var newFrame1 = document.createElement('div');
+            newFrame.className = 'photo-frame';
+            newFrame1.className = 'container';
+            var newPhoto = document.createElement('img');
+            newPhoto.className = 'photo';
+            // 构造图片路径，确保路径是有效的
+            var path1 = './'+randomNumber+'.jpg'; // 替换为正确的图片路径
+            newPhoto.src = path1;
+            console.log(path1);
+            newFrame.appendChild(newPhoto);
+            newFrame1.style.float = 'left';
+            newFrame1.appendChild(newFrame);
+            newFrame1.style.animation = 'fadeIn 2s ease forwards';
+
+            
+    } else {
+        // 触发心形图案的淡入动画
+      allDiv.style.animation = 'fadeIn 2s ease forwards';
+
+      // 逐字显示文字
+      spans.forEach((span, index) => {
+        // 延迟时间从0.5s开始，每个字之间间隔0.5s
+        var delay = index * 0.5 + 0.5;
+        span.style.animation = 'reveal 1s ease forwards ' + delay + 's';
+        span.style.color = '#FF8C8C'; // 设置文字颜色为粉色
+        span.style.opacity = '0'; // 开始时设置为不透明
+      });
+    }
+        fontDiv.style.opacity = '1';
+  // 设置 transform-origin 为图片的中心
+  newFrame.style.transformOrigin = 'center center';
+
+  // 设置随机旋转角度，负值表示围绕Y轴向下旋转
+  var randomAngle = Math.floor(Math.random() * 90) * -1; // 生成-90到0度之间的随机角度
+  newFrame.style.transform = 'rotate(' + randomAngle + 'deg)';
+
+            mainDiv.appendChild(newFrame1);
+        // 更新图片编号
+        i++;
+
+        // 记录并调整新相框的位置
+        framesArray.push(newFrame);
+        adjustFramesPosition();
+  });
+    
+        function adjustFramesPosition() {
+        var viewportWidth = window.innerWidth; // 获取视口宽度
+        var totalWidth = 0;
+        var totalHeight = 0;
+        var frameWidth = 320; // 包括边框和内边距的宽度
+        var frameSpacing = 20; // 相框之间的间距
+
+        // 遍历所有相框，确定它们的位置
+        for (var j = 0; j < framesArray.length; j++) {
+            var frame = framesArray[j];
+            var frameHeight = frame.offsetHeight;
+
+            // 检查当前行的总宽度加上新相框的宽度是否超出视口宽度
+            if (totalWidth + frameWidth + frameSpacing > viewportWidth) {
+                console.log(totalWidth + frameWidth + frameSpacing);
+                // 如果超出，将相框放置在新一行的开始位置
+                frame.style.left = '0';
+                totalWidth = frameWidth; // 重置总宽度为相框宽度
+                totalHeight += frameHeight + frameSpacing; // 更新总高度
+            } else {
+                // 如果没有超出，将相框放置在当前行
+                totalWidth += frameWidth + frameSpacing; // 更新总宽度
+            }
+        }
+    }
+
+    // 初始时调整相框位置
+    adjustFramesPosition();
+  </script>
+</body>
+</html>
